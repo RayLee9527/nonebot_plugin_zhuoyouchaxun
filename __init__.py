@@ -520,23 +520,22 @@ async def _(bot: Bot,state:T_State,event: GroupMessageEvent,link: str = ArgPlain
     # ------
 
     
+# ----------------------封车------------------------------
+close_car = on_command("桌游封车",block=True,priority=12,aliases={"封车"})
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+@close_car.handle()
+from nonebot import on_message
+from nonebot import Message
+@on_message('group')
+async def _(bot: Bot, ctx):
+    # 获取刚刚获得的user_id，这样就能跨函数使用
+    state['userid'] = str(event.user_id)
+    # 引用历史发言
+    quote_message = Message(message_type='group',
+                            group_id=ctx['group_id'],
+                            message_id=ctx['message_id'])
+    await bot.send(ctx, message='封车', quote=quote_message)
+    
 # -----------------------cheche表每天删除-----------------------
 # 定时任务函数
 def clear_table():
